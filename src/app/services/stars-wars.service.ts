@@ -21,7 +21,7 @@ export class StarsWarsService {
 
 
   private executeQuery<T>( endpoint:string ){
-    console.log(`${apiUrl}${endpoint}`)
+
     return this.http.get<T>(`${apiUrl}${endpoint}`)
   }
 
