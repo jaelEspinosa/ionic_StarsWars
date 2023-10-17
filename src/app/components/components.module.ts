@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ArticlesComponent } from './articles/articles.component';
 import { ArticleComponent } from './article/article.component';
+import { ButtonSoundComponent } from './button-sound/button-sound.component';
+
 
 
 
@@ -11,6 +13,7 @@ import { ArticleComponent } from './article/article.component';
   declarations: [
     ArticlesComponent,
     ArticleComponent,
+    ButtonSoundComponent
 
   ],
   imports: [
@@ -18,7 +21,8 @@ import { ArticleComponent } from './article/article.component';
     IonicModule
   ],
   exports:[
-    ArticlesComponent
+    ArticlesComponent,
+    ButtonSoundComponent
   ]
 })
 export class ComponentsModule { }

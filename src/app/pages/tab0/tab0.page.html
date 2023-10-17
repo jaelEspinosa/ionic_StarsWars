@@ -31,15 +31,9 @@
 </ion-col>
 </ion-row>
 
-<audio #backgroundMusic controls autoplay loop style="display:none">
-  <source src="/assets/ringtones-star-wars.mp3" type="audio/mp3">
-  Tu navegador no soporta el elemento de audio.
-</audio>
 
 <ion-fab slot="fixed" vertical="bottom" horizontal="start" >
-  <ion-fab-button (click)="toggleAudio()" size="small">
-    <ion-icon  [name]="!isPlaying ? 'volume-mute-outline' : 'volume-high-outline'" size="small"></ion-icon>
-  </ion-fab-button>
+  <app-button-sound></app-button-sound>
 </ion-fab>
 
 </ion-content>
