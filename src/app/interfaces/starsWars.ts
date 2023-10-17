@@ -6,26 +6,28 @@ export interface CharactersResponse {
 }
 
 export interface Data {
-  _id:         string;
-  name:        string;
+  _id        : string;
+  name       : string;
   description: string;
-  image:       string;
-  __v:         number;
+  image      : string;
+  __v        : number;
+  lastItem?  : boolean;
 }
 
 
 
 export interface Info {
-  total: number;
-  page:  number;
-  limit: number;
-  next:  string;
-  prev:  string;
+  total : number;
+  page  : number;
+  limit : number;
+  next  : string;
+  prev  : string;
 }
 
 export interface DataByCategoryAndPage{
   [key: string] : {
-    page: number,
-    articles: Data[]
+     page     : number;
+     lastPage?: boolean;
+     data     : Data[];
   }
 }

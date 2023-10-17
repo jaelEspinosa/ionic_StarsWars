@@ -37,31 +37,33 @@ export class Tab2Page implements OnInit{
     this.selectedCategory = ( event as CustomEvent ).detail.value
 
     this.starsSvc.getDataByCategory(this.selectedCategory)
-   .subscribe(res => {
-     this.cards = res
+   .subscribe(resp => {
+     this.cards = resp
 
    })
 
   }
 
  loadData( event: any ) {
- /*  console.log( this.articles[this.articles.length-1].title)
-  setTimeout(() => {
 
-    this.newsSvc.getTopHeadlinesByCategory( this.selectedCategory, true)
-    .subscribe( articles => {
+   setTimeout(() => {
+    this.starsSvc.getDataByCategory(this.selectedCategory, true)
+      .subscribe(resp => {
+        console.log(resp)
+        if(resp[resp.length-1].lastItem){
+          event.target.disabled = true;
+          this.finalData = 'No more data...'
+        }else{
+          event.target.disabled = false;
+          this.finalData = '';
+        }
+        this.cards = resp;
+        event.target.complete()
 
-      if (this.articles[this.articles.length-1].title === articles[articles.length-1].title ){
-        event.target.disabled = true;
-        this.finalData = 'Has llegado al final!'
-        return
-      }
-      this.articles = articles;
+      })
+   }, 800);
 
-      event.target.complete();
-    })
-  }, 700);
- */
+
 }
 
 
