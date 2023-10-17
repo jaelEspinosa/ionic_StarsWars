@@ -6,10 +6,12 @@ import { ArticleComponent } from './article/article.component';
 
 
 
+
 @NgModule({
   declarations: [
     ArticlesComponent,
-    ArticleComponent
+    ArticleComponent,
+
   ],
   imports: [
     CommonModule,

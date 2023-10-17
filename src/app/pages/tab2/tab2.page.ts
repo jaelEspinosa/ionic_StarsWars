@@ -36,11 +36,10 @@ export class Tab2Page implements OnInit{
   segmentChanged( event: Event ) {
     this.selectedCategory = ( event as CustomEvent ).detail.value
 
-    console.log('la categoria es... ',this.selectedCategory)
     this.starsSvc.getDataByCategory(this.selectedCategory)
    .subscribe(res => {
      this.cards = res
-     console.log(this.cards)
+
    })
 
   }

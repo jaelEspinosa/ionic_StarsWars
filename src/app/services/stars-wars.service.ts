@@ -45,7 +45,7 @@ export class StarsWarsService {
       return this.executeQuery<CharactersResponse>( `/${category}`)
         .pipe(
           map(res => {
-            console.log(res.info.next)
+
             return this.characters = [...this.characters, ...res.data]
           })
         )

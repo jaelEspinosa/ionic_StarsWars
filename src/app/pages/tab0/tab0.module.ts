@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { Tab0PageRoutingModule } from './tab0-routing.module';
 
 import { Tab0Page } from './tab0.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     Tab0PageRoutingModule
   ],
   declarations: [Tab0Page]
