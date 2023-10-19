@@ -17,16 +17,16 @@ export class StarsWarsService {
 
   private characters: Data[] = []
   private page: number = 1
-  public  lastPage: boolean = false;
-
+  private searchPage: number = 1;
   private dataByCategoryAndPage: DataByCategoryAndPage = {}
+  private searchedResults: Data[] = []
+
+  public  lastPage: boolean = false;
 
   private executeQuery<T>( endpoint:string ){
     console.log(endpoint)
     return this.http.get<T>(`${apiUrl}${endpoint}`)
   }
-
-
 
   public getAllCharacters(category:string , loadMore: boolean = false ):Observable<Data[]>{
 
@@ -50,9 +50,7 @@ export class StarsWarsService {
             return this.characters = [...this.characters, ...res.data]
           })
         )
-
   }
-
 
  public getDataByCategory( category:string, loadMore: boolean = false ):Observable<Data[]>{
 
@@ -95,5 +93,58 @@ export class StarsWarsService {
       })
     )
  }
+
+
+public getAllCardsAndFindByname(name: string, loadMore: boolean = false ):Observable<Data[]> {
+
+  if (loadMore) {
+    this.searchPage =+ 1
+    return this.executeQuery<CharactersResponse>(`/characters?page=${this.searchPage}`)
+        .pipe(
+          map(resp => {
+            const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
+            this.searchedResults = [...this.searchedResults, ...data]
+            if (!resp.info.next){
+              this.searchedResults[this.searchedResults.length-1].lastItem = true
+            }
+            return this.searchedResults
+         })
+        )
+  } else {
+
+    this.searchedResults = []
+    return this.executeQuery<CharactersResponse>(`/characters?page=${this.searchPage}`)
+        .pipe(
+          map(resp => {
+            const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
+            this.searchedResults = [...this.searchedResults, ...data]
+
+            return this.searchedResults
+        })
+        )
+  }
+
+
+}
+
+
+/* private findCardsByName (pages:number , name:string ):Observable<Data[]>{
+
+  console.log('vamos a buscar por: ',name,' en un total de ',pages,' paginas')
+
+
+
+      return this.executeQuery<CharactersResponse>(`/characters?page=${1}`)
+       .pipe(
+        map(resp =>{
+          const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
+          console.log('la data es',data)
+          this.searchedResults = [...this.searchedResults, ...data]
+          return this.searchedResults
+        })
+       )
+
+
+} */
 
 }

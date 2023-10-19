@@ -4,14 +4,6 @@
       StarsWars DataBank
     </ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense" mode="ios" class="ion-no-border">
-    <ion-toolbar>
-      <ion-title color="primary" class="ion-text-center" size="large">StarsWars DataBank</ion-title>
-    </ion-toolbar>
-  </ion-header>
   <ion-segment [value]="selectedCategory"
                (ionChange)="segmentChanged($event)"
                scrollable
@@ -24,7 +16,24 @@
     </ion-segment-button>
 
   </ion-segment>
+</ion-header>
 
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense" mode="ios" class="ion-no-border">
+    <ion-toolbar>
+      <ion-title color="primary" class="ion-text-center" size="large">StarsWars DataBank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-articles [characters]="cards"></app-articles>
+
+  <ion-infinite-scroll
+                  threshold="25%"
+                  position="bottom"
+                  (ionInfinite)="loadData()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 
 </ion-content>

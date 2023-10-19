@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 import { Data } from 'src/app/interfaces/starsWars';
 
@@ -10,6 +11,8 @@ import { StarsWarsService } from 'src/app/services/stars-wars.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit{
+
+  @ViewChild(IonInfiniteScroll) infiniteScroll!: IonInfiniteScroll
 
   public finalData: string = ''
 
@@ -40,28 +43,37 @@ export class Tab2Page implements OnInit{
    .subscribe(resp => {
      this.cards = resp
 
+     if(resp[resp.length-1].lastItem){
+      this.infiniteScroll.disabled = true;
+      this.finalData = 'No more data...'
+    }else{
+      this.infiniteScroll.disabled = false;
+      this.finalData = '';
+    }
+
    })
 
   }
 
- loadData( event: any ) {
+ loadData() {
 
-   setTimeout(() => {
+
     this.starsSvc.getDataByCategory(this.selectedCategory, true)
       .subscribe(resp => {
-        console.log(resp)
+
         if(resp[resp.length-1].lastItem){
-          event.target.disabled = true;
+          this.infiniteScroll.disabled = true;
           this.finalData = 'No more data...'
         }else{
-          event.target.disabled = false;
+          this.infiniteScroll.disabled = false;
           this.finalData = '';
         }
+        setTimeout(() => {
         this.cards = resp;
-        event.target.complete()
+        this.infiniteScroll.complete()
+      }, 500);
 
       })
-   }, 800);
 
 
 }

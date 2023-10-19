@@ -33,3 +33,25 @@
 .article-source-name{
   font-size: 12px;
 }
+
+.my-class .alert-wrapper{
+  border: 1px solid var(--ion-color-primary)!important;
+  border-radius: 10px;
+  box-shadow: 10px 10px 12px black;
+}
+
+.my-class .alert-wrapper h2{
+  text-align: center;
+}
+
+
+.my-class-danger .alert-wrapper{
+  border: 1px solid var(--ion-color-primary)!important;
+  border-radius: 10px;
+  box-shadow: 10px 10px 12px black;
+}
+
+.my-class-danger .alert-wrapper h2{
+  color: red!important;
+  text-align: center;
+}
