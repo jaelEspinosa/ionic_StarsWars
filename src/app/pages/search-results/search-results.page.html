@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense"  class="ion-no-border" mode="ios">
     <ion-toolbar>
-      <ion-title color="primary" class="ion-text-center" size="large">StarsWars DataBank</ion-title>
+      <ion-title color="primary" class="ion-text-center" size="large">Star Wars DataBank</ion-title>
       <h5  *ngIf="searchResults.length > 0" style="text-align: center; color: var(--ion-color-primary); margin-top: 0;">Results for "{{termOfSearch | titlecase}}"</h5>
       <ion-chip *ngIf="searchResults.length > 0" color="primary" mode="ios" outline="true">
         <ion-label>{{searchResults.length}} Matches found</ion-label>
