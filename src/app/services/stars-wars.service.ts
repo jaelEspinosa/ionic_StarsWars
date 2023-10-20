@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, OnInit, inject } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
-import { Data, CharactersResponse, DataByCategoryAndPage, } from '../interfaces/starsWars';
+import { Data, CharactersResponse, DataByCategoryAndPage } from '../interfaces/starsWars';
 import { environment } from 'src/environments/environment';
+
 
 
 const apiUrl = environment.apiUrl
@@ -10,18 +11,24 @@ const apiUrl = environment.apiUrl
 @Injectable({
   providedIn: 'root'
 })
-export class StarsWarsService {
+export class StarsWarsService implements OnInit{
 
   constructor() { }
+  ngOnInit(): void {
+    this.searchPage = 1;
+    this.page=1
+  }
   private http = inject ( HttpClient )
 
   private characters: Data[] = []
   private page: number = 1
-  private searchPage: number = 1;
   private dataByCategoryAndPage: DataByCategoryAndPage = {}
   private searchedResults: Data[] = []
 
-  public  lastPage: boolean = false;
+  private  searchPage: number = 1;
+  public   lastPage: boolean = false;
+  public   totalItems: number = 0;
+
 
   private executeQuery<T>( endpoint:string ){
     console.log(endpoint)
@@ -86,7 +93,6 @@ export class StarsWarsService {
           data: [...this.dataByCategoryAndPage[category].data, ...resp.data]
         }
         if(!resp.info.next){
-
           this.dataByCategoryAndPage[category].data[this.dataByCategoryAndPage[category].data.length-1].lastItem = true;
         }
       return this.dataByCategoryAndPage[category].data;
@@ -98,10 +104,11 @@ export class StarsWarsService {
 public getAllCardsAndFindByname(name: string, loadMore: boolean = false ):Observable<Data[]> {
 
   if (loadMore) {
-    this.searchPage =+ 1
+    this.searchPage = this.searchPage + 1;
     return this.executeQuery<CharactersResponse>(`/characters?page=${this.searchPage}`)
         .pipe(
           map(resp => {
+
             const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
             this.searchedResults = [...this.searchedResults, ...data]
             if (!resp.info.next){
@@ -113,9 +120,12 @@ public getAllCardsAndFindByname(name: string, loadMore: boolean = false ):Observ
   } else {
 
     this.searchedResults = []
+
+
     return this.executeQuery<CharactersResponse>(`/characters?page=${this.searchPage}`)
         .pipe(
           map(resp => {
+            localStorage.setItem('totalItems', (resp.info.total.toString()))
             const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
             this.searchedResults = [...this.searchedResults, ...data]
 

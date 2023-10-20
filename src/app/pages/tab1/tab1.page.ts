@@ -4,6 +4,8 @@ import { Article } from 'src/app/interfaces';
 import { StarsWarsService } from 'src/app/services/stars-wars.service';
 import { Data } from 'src/app/interfaces/starsWars';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-tab1',
@@ -13,8 +15,8 @@ import { AlertController } from '@ionic/angular';
 export class Tab1Page implements OnInit {
   private starsSvc = inject(StarsWarsService);
   private alertCtrl = inject(AlertController);
+  private router = inject ( Router )
 
-  private searhDisabled: boolean = true;
   public articles: Article[] = [];
   public characters: Data[] = [];
   public finalData: string = '';
@@ -91,8 +93,10 @@ export class Tab1Page implements OnInit {
   }
 
   searchByName(name: string) {
-    this.starsSvc.getAllCardsAndFindByname(name).subscribe((resp) => {
+      this.router.navigateByUrl(`tabs/search-results/${name}`)
+
+  /*   this.starsSvc.getAllCardsAndFindByname(name).subscribe((resp) => {
       console.log('el array de busqueda es: ', resp);
-    });
+    }); */
   }
 }
