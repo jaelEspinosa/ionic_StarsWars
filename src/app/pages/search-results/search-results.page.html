@@ -28,8 +28,8 @@
   <h6 style="color: var(--ion-color-primary);"> No results for <span style="text-decoration: line-through;">{{termOfSearch | titlecase}}</span></h6>
 </div>
 
-<ion-fab slot="fixed" vertical="bottom" horizontal="start">
-  <ion-fab-button  size="small" (click)="goBack()">
+<ion-fab slot="fixed" vertical="bottom" horizontal="start" class="ion-padding">
+  <ion-fab-button  size="small" (click)="goBack()" [disabled]="isLoadingData">
     <ion-icon name="arrow-undo-outline" size="small"></ion-icon>
   </ion-fab-button>
 </ion-fab>
