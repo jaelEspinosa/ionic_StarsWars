@@ -1,5 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Component, Input, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Data } from 'src/app/interfaces/starsWars';
 import { StarsWarsService } from 'src/app/services/stars-wars.service';
@@ -15,18 +16,22 @@ export class SearchResultsPage implements OnInit {
 
 
 
+
   private route = inject ( ActivatedRoute )
   private starWarsSvc = inject ( StarsWarsService )
+  private location = inject ( Location )
 
   public finalData: string = '';
 
   public termOfSearch: string = ''
+  public category: string= '';
   public searchResults: Data[] = []
 
   public page: number = 1
   public totalItems:number = Number(localStorage.getItem('totalItems'));
   public totalPages:number = 0;
-
+  public isLoadingData: boolean = true
+  public message:string = '';
 
 
 
@@ -34,6 +39,9 @@ export class SearchResultsPage implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.termOfSearch = params['name'];
+      this.category = params['category'];
+      this.message = `Searching for "${this.termOfSearch}"`;
+      this.isLoadingData = true;
     });
 
     if (this.totalItems) {
@@ -43,25 +51,15 @@ export class SearchResultsPage implements OnInit {
       }
     }
 
-    this.starWarsSvc.getAllCardsAndFindByname(this.termOfSearch)
+    this.starWarsSvc.getAllCardsAndFindByname(this.termOfSearch, this.category)
      .subscribe(resp => {
        this.searchResults = resp
+       this.isLoadingData = false
      })
   }
 
-  loadData() {
-    this.starWarsSvc.getAllCardsAndFindByname(this.termOfSearch, true)
-     .subscribe(resp => {
-      setTimeout(() => {
-        this.searchResults = resp;
-        this.page += 1
-        if( this.page >= this.totalPages){
-          this.finalData = 'No More Data...'
-        }
-      }, 500);
-      console.log(this.searchResults)
-
-    })
+  goBack(){
+    this.location.back()
   }
 
 }

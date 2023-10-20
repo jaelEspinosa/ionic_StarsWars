@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, IonInfiniteScroll } from '@ionic/angular';
 
 import { Data } from 'src/app/interfaces/starsWars';
 
@@ -18,6 +19,8 @@ export class Tab2Page implements OnInit{
 
 
   public starsSvc = inject ( StarsWarsService )
+  private alertCtrl = inject ( AlertController )
+  private router = inject ( Router )
 
   public cards : Data[]  = []
 
@@ -77,7 +80,57 @@ export class Tab2Page implements OnInit{
 
 
 }
+async showAlert() {
+  const alert = await this.alertCtrl.create({
+    header: 'Search by Character Name',
+    cssClass: 'my-class',
+    inputs: [
+      {
+        name: 'Character',
+        placeholder: 'input the Character to search',
+        type: 'text',
+        attributes: {
+          minlength: 4,
+          maxlength: 15,
+        },
+      },
+    ],
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+      },
 
+      {
+        text: 'Search',
+        handler: (data) => {
+          if (!data.Character) {
+            this.showAlert2();
+            return;
+          }
+          this.searchByName(data.Character); // en data tenemos el value del formulario
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+}
+
+async showAlert2() {
+  const alert = await this.alertCtrl.create({
+    header: 'No Search Term Writed',
+    cssClass: 'my-class-danger',
+    buttons: ['Ok'],
+  });
+  await alert.present();
+}
+
+searchByName(name: string) {
+    this.router.navigateByUrl(`tabs/search-results/${name}/${this.selectedCategory}`)
+
+
+}
 
 }
 

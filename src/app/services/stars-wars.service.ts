@@ -101,7 +101,7 @@ export class StarsWarsService implements OnInit{
  }
 
 
-public getAllCardsAndFindByname(name: string, loadMore: boolean = false ):Observable<Data[]> {
+public getAllCardsAndFindByname(name: string, category:string = 'characters', loadMore: boolean = false ):Observable<Data[]> {
 
 
 
@@ -110,13 +110,18 @@ public getAllCardsAndFindByname(name: string, loadMore: boolean = false ):Observ
   const dataSubject: Subject<Data[]> = new Subject<Data[]>();
 
   const subscription = interval(250).subscribe(() =>{
-    this.executeQuery<CharactersResponse>(`/characters?page=${currentPage}`)
+    this.executeQuery<CharactersResponse>(`/${category}?page=${currentPage}`)
      .subscribe(resp => {
       const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
       this.searchedResults = [...this.searchedResults, ...data]
       console.log(this.searchedResults)
       currentPage++
-      if (currentPage >=  97) {
+      let totalPages = resp.info.total/10
+      if (totalPages < Math.round( resp.info.total/10 )){
+        totalPages = totalPages + 1
+      }
+
+      if (currentPage >=  totalPages) {
        subscription.unsubscribe();
        dataSubject.next(this.searchedResults); // Emitir los resultados una vez que se complete la búsqueda
        dataSubject.complete(); // Completar el subject

@@ -4,16 +4,8 @@
       StarsWars DataBank
     </ion-title>
   </ion-toolbar>
-  <ion-segment
-
-              [value]="selectedCategory"
-              (ionChange)="segmentChanged($event)"
-              scrollable
-              mode="md"
-              >
-    <ion-segment-button
-             *ngFor="let category of categories"
-            [value]="category">
+  <ion-segment [value]="selectedCategory" (ionChange)="segmentChanged($event)" scrollable mode="md">
+    <ion-segment-button *ngFor="let category of categories" [value]="category">
       <ion-label class="ion-text-capitalize">{{ category }}</ion-label>
     </ion-segment-button>
 
@@ -31,18 +23,19 @@
 
   <app-articles [characters]="cards"></app-articles>
 
-  <ion-infinite-scroll
-                  threshold="25%"
-
-                  position="bottom"
-                  (ionInfinite)="loadData()"
-                  >
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData()">
     <app-spinner *ngIf="cards.length > 0" message="Loading more data..."></app-spinner>
   </ion-infinite-scroll>
 
   <h5 *ngIf="finalData" style="text-align: center; color: var(--ion-color-primary);">{{finalData}}</h5>
 
 
-  <app-spinner *ngIf="cards.length <= 0" message = "Loading..."></app-spinner>
+  <app-spinner *ngIf="cards.length <= 0" message="Loading..."></app-spinner>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button (click)="showAlert()" size="small">
+      <ion-icon name="search-outline" size="small"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

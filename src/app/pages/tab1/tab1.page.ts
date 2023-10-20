@@ -92,10 +92,8 @@ export class Tab1Page implements OnInit {
   }
 
   searchByName(name: string) {
-      this.router.navigateByUrl(`tabs/search-results/${name}`)
+      this.router.navigateByUrl(`tabs/search-results/${name}/characters`)
 
-  /*   this.starsSvc.getAllCardsAndFindByname(name).subscribe((resp) => {
-      console.log('el array de busqueda es: ', resp);
-    }); */
+
   }
 }

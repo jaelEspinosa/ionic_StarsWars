@@ -12,18 +12,26 @@
     <ion-toolbar>
       <ion-title color="primary" class="ion-text-center" size="large">StarsWars DataBank</ion-title>
       <h5  *ngIf="searchResults.length > 0" style="text-align: center; color: var(--ion-color-primary); margin-top: 0;">Results for "{{termOfSearch | titlecase}}"</h5>
+      <ion-chip *ngIf="searchResults.length > 0" color="primary" mode="ios" outline="true">
+        <ion-label>{{searchResults.length}} Matches found</ion-label>
+      </ion-chip>
     </ion-toolbar>
   </ion-header>
-
   <app-articles  [characters]="searchResults"></app-articles>
 
   <h5 *ngIf="finalData" style="text-align: center; color: var(--ion-color-primary);">{{finalData}}</h5>
 
+<app-spinner  *ngIf="isLoadingData && searchResults.length < 1" [message] = "message"></app-spinner>
 
-<div class="spinner" *ngIf="searchResults.length < 1">
-  <ion-label color="primary">Searching for "{{termOfSearch}}"</ion-label>
-  <ion-spinner color="primary" name="lines"></ion-spinner>
+
+<div class="spinner-scroll" *ngIf="searchResults.length < 1 && !isLoadingData">
+  <h6 style="color: var(--ion-color-primary);"> No results for <span style="text-decoration: line-through;">{{termOfSearch | titlecase}}</span></h6>
 </div>
 
-
+<ion-fab slot="fixed" vertical="bottom" horizontal="start">
+  <ion-fab-button  size="small" (click)="goBack()">
+    <ion-icon name="arrow-undo-outline" size="small"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 </ion-content>
+

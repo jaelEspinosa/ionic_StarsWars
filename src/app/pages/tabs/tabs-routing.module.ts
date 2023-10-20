@@ -25,7 +25,7 @@ const routes: Routes = [
         loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
       },
       {
-        path: 'search-results/:name',
+        path: 'search-results/:name/:category',
         loadChildren: () => import('../search-results/search-results.module').then( m => m.SearchResultsPageModule)
       },
       {
