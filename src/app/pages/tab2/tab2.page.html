@@ -37,12 +37,12 @@
                   position="bottom"
                   (ionInfinite)="loadData()"
                   >
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
+    <app-spinner *ngIf="cards.length > 0" message="Loading more data..."></app-spinner>
   </ion-infinite-scroll>
 
   <h5 *ngIf="finalData" style="text-align: center; color: var(--ion-color-primary);">{{finalData}}</h5>
 
 
+  <app-spinner *ngIf="cards.length <= 0" message = "Loading..."></app-spinner>
 
 </ion-content>

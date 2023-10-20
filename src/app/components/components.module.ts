@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { ArticlesComponent } from './articles/articles.component';
 import { ArticleComponent } from './article/article.component';
 import { ButtonSoundComponent } from './button-sound/button-sound.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 
@@ -13,7 +14,8 @@ import { ButtonSoundComponent } from './button-sound/button-sound.component';
   declarations: [
     ArticlesComponent,
     ArticleComponent,
-    ButtonSoundComponent
+    ButtonSoundComponent,
+    SpinnerComponent
 
   ],
   imports: [
@@ -22,7 +24,8 @@ import { ButtonSoundComponent } from './button-sound/button-sound.component';
   ],
   exports:[
     ArticlesComponent,
-    ButtonSoundComponent
+    ButtonSoundComponent,
+    SpinnerComponent
   ]
 })
 export class ComponentsModule { }

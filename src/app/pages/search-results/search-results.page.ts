@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonInfiniteScroll } from '@ionic/angular';
+
 import { Data } from 'src/app/interfaces/starsWars';
 import { StarsWarsService } from 'src/app/services/stars-wars.service';
 

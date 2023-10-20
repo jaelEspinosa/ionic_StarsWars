@@ -29,7 +29,6 @@ export class Tab1Page implements OnInit {
     });
   }
   loadData(event: any) {
-    console.log(this.starsSvc.lastPage);
 
     setTimeout(() => {
       this.starsSvc

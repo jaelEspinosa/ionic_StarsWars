@@ -55,3 +55,31 @@
   color: red!important;
   text-align: center;
 }
+.spinner{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-55%, -50%);
+  min-width: 250px;
+  margin: 15px;
+  padding: 10px 0px;
+  display:flex;
+  align-items: center;
+  justify-content: space-around;
+
+  background-color:gray;
+  border-radius: 12px;
+}
+
+.spinner-scroll{
+  text-align: center;
+  margin: 10px auto 50px auto;
+  padding: 20px;
+  border-radius: 12px;
+  border:1px solid gray;
+  box-shadow: 4px 4px 10px rgb(44, 43, 43);
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

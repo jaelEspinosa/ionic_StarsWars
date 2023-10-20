@@ -31,9 +31,8 @@
                   threshold="25%"
                   position="bottom"
                   (ionInfinite)="loadData()">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
+   <app-spinner *ngIf="cards.length > 0" message = "Loading more data..."></app-spinner>
   </ion-infinite-scroll>
 
-
+  <app-spinner *ngIf="cards.length <= 0" message = "Loading..."></app-spinner>
 </ion-content>

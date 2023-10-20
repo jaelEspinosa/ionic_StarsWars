@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit, inject } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, Subject, interval, map, of } from 'rxjs';
 import { Data, CharactersResponse, DataByCategoryAndPage } from '../interfaces/starsWars';
 import { environment } from 'src/environments/environment';
 
@@ -103,58 +103,33 @@ export class StarsWarsService implements OnInit{
 
 public getAllCardsAndFindByname(name: string, loadMore: boolean = false ):Observable<Data[]> {
 
-  if (loadMore) {
-    this.searchPage = this.searchPage + 1;
-    return this.executeQuery<CharactersResponse>(`/characters?page=${this.searchPage}`)
-        .pipe(
-          map(resp => {
-
-            const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
-            this.searchedResults = [...this.searchedResults, ...data]
-            if (!resp.info.next){
-              this.searchedResults[this.searchedResults.length-1].lastItem = true
-            }
-            return this.searchedResults
-         })
-        )
-  } else {
-
-    this.searchedResults = []
 
 
-    return this.executeQuery<CharactersResponse>(`/characters?page=${this.searchPage}`)
-        .pipe(
-          map(resp => {
-            localStorage.setItem('totalItems', (resp.info.total.toString()))
-            const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
-            this.searchedResults = [...this.searchedResults, ...data]
+  this.searchedResults = []
+  let currentPage:number = 1;
+  const dataSubject: Subject<Data[]> = new Subject<Data[]>();
 
-            return this.searchedResults
-        })
-        )
-  }
+  const subscription = interval(250).subscribe(() =>{
+    this.executeQuery<CharactersResponse>(`/characters?page=${currentPage}`)
+     .subscribe(resp => {
+      const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
+      this.searchedResults = [...this.searchedResults, ...data]
+      console.log(this.searchedResults)
+      currentPage++
+      if (currentPage >=  97) {
+       subscription.unsubscribe();
+       dataSubject.next(this.searchedResults); // Emitir los resultados una vez que se complete la búsqueda
+       dataSubject.complete(); // Completar el subject
+     }
+     })
+  })
 
+
+
+    return dataSubject.asObservable() // Devolver el Observable del subject
 
 }
 
 
-/* private findCardsByName (pages:number , name:string ):Observable<Data[]>{
-
-  console.log('vamos a buscar por: ',name,' en un total de ',pages,' paginas')
-
-
-
-      return this.executeQuery<CharactersResponse>(`/characters?page=${1}`)
-       .pipe(
-        map(resp =>{
-          const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
-          console.log('la data es',data)
-          this.searchedResults = [...this.searchedResults, ...data]
-          return this.searchedResults
-        })
-       )
-
-
-} */
 
 }

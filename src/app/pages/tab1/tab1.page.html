@@ -7,30 +7,26 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense"  class="ion-no-border" mode="ios">
+  <ion-header collapse="condense" class="ion-no-border" mode="ios">
     <ion-toolbar>
       <ion-title color="primary" class="ion-text-center" size="large">StarsWars DataBank</ion-title>
       <h5 style="text-align: center; color: var(--ion-color-primary); margin-top: 0;">Characters</h5>
     </ion-toolbar>
   </ion-header>
 
-   <app-articles  [characters]="characters"></app-articles>
-   <ion-infinite-scroll
-              threshold="25%"
-
-              position="bottom"
-              (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-   </ion-infinite-scroll>
-   <h5 *ngIf="finalData" style="text-align: center; color: var(--ion-color-primary);">{{finalData}}</h5>
+  <app-articles [characters]="characters"></app-articles>
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)">
+    <app-spinner *ngIf="characters.length > 1" message='Loading more data...'></app-spinner>
+  </ion-infinite-scroll>
+  <h5 *ngIf="finalData" style="text-align: center; color: var(--ion-color-primary);">{{finalData}}</h5>
 
 
 
-   <ion-fab slot="fixed" vertical="bottom" horizontal="start" >
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
     <ion-fab-button (click)="showAlert()" size="small">
-      <ion-icon  name="search-outline" size="small"></ion-icon>
+      <ion-icon name="search-outline" size="small"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
+  <app-spinner message='Loading...' *ngIf="characters.length <= 0"></app-spinner>
 </ion-content>
