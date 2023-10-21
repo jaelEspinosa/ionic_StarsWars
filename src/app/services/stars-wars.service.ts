@@ -124,10 +124,13 @@ public getAllCardsAndFindByname(name: string, category:string = 'characters', lo
       console.log(this.searchedResults)
       currentPage++
 
-      let totalPages= Math.round(resp.info.total/10)
-      if (totalPages < Math.round(resp.info.total/10)) totalPages = totalPages + 1
+      let totalPages = Math.round(resp.info.total/10)
 
-      if (totalPages === currentPage) {
+      if (totalPages < resp.info.total){
+        totalPages = totalPages + 1
+      }
+
+      if (currentPage > totalPages) {
        subscription.unsubscribe();
        dataSubject.next(this.searchedResults); // Emitir los resultados una vez que se complete la búsqueda
        dataSubject.complete(); // Completar el subject
