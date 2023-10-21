@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit, inject } from '@angular/core';
 import { Observable, Subject, interval, map, of } from 'rxjs';
+
 import { Data, CharactersResponse, DataByCategoryAndPage } from '../interfaces/starsWars';
 import { environment } from 'src/environments/environment';
 
@@ -109,19 +110,24 @@ public getAllCardsAndFindByname(name: string, category:string = 'characters', lo
   let currentPage:number = 1;
   const dataSubject: Subject<Data[]> = new Subject<Data[]>();
 
-  const subscription = interval(250).subscribe(() =>{
+  const subscription = interval(250)
+
+  .subscribe(() =>{
     this.executeQuery<CharactersResponse>(`/${category}?page=${currentPage}`)
      .subscribe(resp => {
       const data = resp.data.filter(item => item.name.toUpperCase().includes(name.toUpperCase()))
-      this.searchedResults = [...this.searchedResults, ...data]
+      data.forEach(item => {
+        if (!this.searchedResults.some(existingItem => existingItem._id === item._id)) {  // nos aseguramos de evitar duplicados
+          this.searchedResults = [...this.searchedResults, ...data]
+        }
+      });
       console.log(this.searchedResults)
       currentPage++
-      let totalPages = resp.info.total/10
-      if (totalPages < Math.round( resp.info.total/10 )){
-        totalPages = totalPages + 1
-      }
 
-      if (currentPage >=  totalPages) {
+      let totalPages= Math.round(resp.info.total/10)
+      if (totalPages < Math.round(resp.info.total/10)) totalPages = totalPages + 1
+
+      if (totalPages === currentPage) {
        subscription.unsubscribe();
        dataSubject.next(this.searchedResults); // Emitir los resultados una vez que se complete la búsqueda
        dataSubject.complete(); // Completar el subject
