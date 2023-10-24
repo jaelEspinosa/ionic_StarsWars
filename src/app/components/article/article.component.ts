@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
 
 
 import { Data } from 'src/app/interfaces/starsWars';
@@ -15,11 +16,47 @@ export class ArticleComponent  implements OnInit {
 
   public imageLoaded: boolean = false;
 
+  public actionCtrl = inject ( ActionSheetController )
+
   constructor() { }
 
   ngOnInit() {
 
 
   }
+  async onOpenMenu(){
 
+    const actionSheet = await this.actionCtrl.create({
+      header:'Opciones',
+      mode:'ios',
+      cssClass:'myActSheet',
+
+      buttons:[
+        {
+          text:'Compartir',
+          icon: 'share-outline',
+          handler:()=>this.onShareArticle()
+        },
+        {
+          text:'Favorito',
+          icon: 'heart-outline',
+          handler:()=>this.onToggleFavorite()
+        },
+        {
+          text:'Cancelar',
+          icon: 'close-outline',
+          role:'cancelar'
+        }
+      ]
+    })
+   await actionSheet.present()
+  }
+
+  onShareArticle(){
+    console.log('Shared Article')
+  }
+
+  onToggleFavorite() {
+    console.log('Toggled Favorite')
+  }
 }
