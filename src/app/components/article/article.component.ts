@@ -19,7 +19,18 @@ export class ArticleComponent  implements OnInit {
 
   public actionCtrl = inject ( ActionSheetController )
 
-  public buttons:  ActionSheetButton<any>[] = [];
+  public buttons:  ActionSheetButton<any>[] = [
+    {
+      text:'Share',
+      icon: 'share-outline',
+      handler:()=>this.onShareArticle()
+    },
+    {
+      text:'Cancel',
+      icon: 'close-outline',
+      role:'cancelar'
+    }
+  ];
 
   constructor() { }
 
@@ -36,41 +47,21 @@ export class ArticleComponent  implements OnInit {
       }
     })
    if(existeItem){
-    this.buttons = [
-      {
-        text:'Share',
-        icon: 'share-outline',
-        handler:()=>this.onShareArticle()
-      },
+    this.buttons.unshift(
       {
         text:'Remove',
         icon: 'heart',
         handler:()=>this.removeFavorite()
-      },
-      {
-        text:'Cancel',
-        icon: 'close-outline',
-        role:'cancelar'
       }
-    ]
+    )
    }else{
-    this.buttons = [
-      {
-        text:'Share',
-        icon: 'share-outline',
-        handler:()=>this.onShareArticle()
-      },
+    this.buttons.unshift(
       {
         text:'Favorite',
         icon: 'heart-outline',
         handler:()=>this.onToggleFavorite()
-      },
-      {
-        text:'Cancel',
-        icon: 'close-outline',
-        role:'cancelar'
-      }
-    ]
+    }
+    )
    }
   }
 
