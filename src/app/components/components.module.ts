@@ -5,6 +5,7 @@ import { ArticlesComponent } from './articles/articles.component';
 import { ArticleComponent } from './article/article.component';
 import { ButtonSoundComponent } from './button-sound/button-sound.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { LittleSpinnerComponent } from './little-spinner/little-spinner.component';
 
 
 
@@ -15,7 +16,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     ArticlesComponent,
     ArticleComponent,
     ButtonSoundComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    LittleSpinnerComponent
 
   ],
   imports: [
@@ -25,7 +27,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
   exports:[
     ArticlesComponent,
     ButtonSoundComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    LittleSpinnerComponent
   ]
 })
 export class ComponentsModule { }

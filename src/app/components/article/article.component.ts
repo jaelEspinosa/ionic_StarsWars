@@ -13,6 +13,8 @@ export class ArticleComponent  implements OnInit {
   @Input() character!: Data
   @Input() i!: number
 
+  public imageLoaded: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
