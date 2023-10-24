@@ -29,6 +29,10 @@ const routes: Routes = [
         loadChildren: () => import('../search-results/search-results.module').then( m => m.SearchResultsPageModule)
       },
       {
+        path: 'tab4',
+        loadChildren: () => import('../tab4/tab4.module').then( m => m.Tab4PageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab0',
         pathMatch: 'full'
