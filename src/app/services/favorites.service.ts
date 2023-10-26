@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Data } from '../interfaces/starsWars';
+import { Storage } from '@ionic/storage-angular';
 
 
 
@@ -8,11 +9,21 @@ import { Data } from '../interfaces/starsWars';
 })
 export class FavoritesService {
 
+  private storage = inject( Storage )
+
   constructor() {
+    this.init();
+
+  }
+
+  async init(){
+    const storage = await this.storage.create()
     this.loadFavorites();
   }
 
   private _currentFavorites: Data[] = []
+
+
 
   get currentFavorites():Data[] {
     return [...this._currentFavorites] //hago visible esta variabel en un nuevo objeto.
@@ -20,7 +31,7 @@ export class FavoritesService {
 
 
 
-  public saveRemoveCharacter( character: Data ){
+  async saveRemoveCharacter( character: Data ){
 
     const exists = this._currentFavorites.find(currentFavorite => currentFavorite._id === character._id)// compruebo si existe
 
@@ -30,13 +41,13 @@ export class FavoritesService {
       this._currentFavorites = [ character, ...this._currentFavorites]
     }
 
-    localStorage.setItem('favorites', JSON.stringify(this._currentFavorites))
+    this.storage.set('favorites',this._currentFavorites)
   }
 
 
-  loadFavorites() {
+  async loadFavorites() {
     try {
-      const favorites = JSON.parse(localStorage.getItem('favorites')!)
+      const favorites = await this.storage.get('favorites')
       this._currentFavorites = favorites || [];
     } catch (error) {
       console.log(error)
