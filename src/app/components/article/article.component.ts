@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { ActionSheetButton, ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import { ActionSheetButton, ActionSheetController, ToastController } from '@ionic/angular';
 
+import { Share } from '@capacitor/share';
 
 import { Data } from 'src/app/interfaces/starsWars';
 import { FavoritesService } from 'src/app/services/favorites.service';
+
 
 @Component({
   selector: 'app-article',
@@ -65,8 +67,11 @@ export class ArticleComponent  implements OnInit {
    await actionSheet.present()
   }
 
-  onShareArticle(){
-    console.log('Shared Article')
+  async onShareArticle(){
+    await Share.share({
+      text:'Shared from "StarWars DataBank"',
+      url: this.character.image
+    })
   }
 
   onToggleFavorite() {

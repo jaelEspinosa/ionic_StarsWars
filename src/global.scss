@@ -94,8 +94,9 @@
   justify-content: space-around;
 }
 ion-toast.removed-favorite-toast{
- --background:rgb(243, 159, 184);
- --box-shadow: 3px 3px 10px 0 rgba(235, 228, 228, 0.3);
+ --background:linear-gradient(to left,rgba(24, 23, 23),rgb(243, 148, 156));
+ /* --background:rgb(243, 159, 184); */
+ --box-shadow: 3px 3px 10px 0 rgba(5, 4, 4, 0.3);
    text-align: center!important;
 
 
@@ -103,8 +104,9 @@ ion-toast.removed-favorite-toast{
 }
 
 ion-toast.added-favorite-toast {
-  --background:rgb(159, 243, 194);
-  --box-shadow: 3px 3px 10px 0 rgba(235, 228, 228, 0.3);
+  --background:linear-gradient(to left,rgba(24, 23, 23),#e09b04);
+  --box-shadow: 3px 3px 10px 0 rgba(5, 4, 4, 0.3);
+    color:black!important;
     text-align: center!important;
 
 

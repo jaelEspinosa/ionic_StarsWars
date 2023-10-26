@@ -15,7 +15,8 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense" mode="ios" class="ion-no-border">
     <ion-toolbar>
-      <ion-title color="primary" class="ion-text-center" size="large" style="font-size: 8vw;">Star Wars DataBank</ion-title>
+      <ion-title color="primary" class="ion-text-center" size="large" style="font-size: 8vw;">Star Wars
+        DataBank</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -24,7 +25,7 @@
   <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData()">
     <app-spinner *ngIf="cards.length > 0" message="Loading more data..."></app-spinner>
   </ion-infinite-scroll>
-
+  <h5 *ngIf="finalData" style="text-align: center; color: var(--ion-color-primary);">{{finalData}}</h5>
   <app-spinner *ngIf="cards.length <= 0" message="Loading..."></app-spinner>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="start">
