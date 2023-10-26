@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { ActionSheetButton, ActionSheetController } from '@ionic/angular';
+import { ActionSheetButton, ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 
 
 import { Data } from 'src/app/interfaces/starsWars';
+import { FavoritesService } from 'src/app/services/favorites.service';
 
 @Component({
   selector: 'app-article',
@@ -13,65 +14,53 @@ export class ArticleComponent  implements OnInit {
 
   @Input() character!: Data
   @Input() i!: number
+  constructor() { }
+
+  ngOnInit() {
+
+
+    this.buttons = [];
+   }
 
   public imageLoaded: boolean = false;
   public favoriteCards : Data[] = []
 
-  public actionCtrl = inject ( ActionSheetController )
 
-  public buttons:  ActionSheetButton<any>[] = [
-    {
-      text:'Share',
-      icon: 'share-outline',
-      handler:()=>this.onShareArticle()
-    },
-    {
-      text:'Cancel',
-      icon: 'close-outline',
-      role:'cancelar'
-    }
-  ];
+  private actionCtrl = inject ( ActionSheetController )
+  private toastCtrl = inject ( ToastController)
+  private favoriteSvc = inject ( FavoritesService )
 
-  constructor() { }
+  public buttons:  ActionSheetButton<any>[] = []
+  public existsFavorite: boolean = false;
 
-  ngOnInit() {
-     if(localStorage.getItem('favorites')){
-       this.favoriteCards = JSON.parse(localStorage.getItem('favorites')!)
-     }
 
-     let existeItem:boolean = false
 
-    this.favoriteCards.forEach(item => {
-      if(item._id === this.character._id){
-        existeItem = true;
-      }
-    })
-   if(existeItem){
-    this.buttons.unshift(
-      {
-        text:'Remove',
-        icon: 'heart',
-        handler:()=>this.removeFavorite()
-      }
-    )
-   }else{
-    this.buttons.unshift(
-      {
-        text:'Favorite',
-        icon: 'heart-outline',
-        handler:()=>this.onToggleFavorite()
-    }
-    )
-   }
-  }
 
   async onOpenMenu(){
+
+    const existsFavorite = this.favoriteSvc.currentFavorites.some(favorite => favorite._id === this.character._id)
     const actionSheet = await this.actionCtrl.create({
       header:'Opciones',
       mode:'ios',
       cssClass:'myActSheet',
 
-      buttons: this.buttons
+      buttons: [
+        {
+          text:'Share',
+          icon: 'share-outline',
+          handler:()=>this.onShareArticle()
+        },
+        {
+          text: !existsFavorite ? 'Favorite' : 'Remove',
+          icon: existsFavorite ? 'heart' : 'heart-outline',
+          handler:()=>this.onToggleFavorite()
+        },
+        {
+          text:'Cancel',
+          icon: 'close-outline',
+          role:'cancelar'
+        }
+      ]
     })
    await actionSheet.present()
   }
@@ -81,26 +70,29 @@ export class ArticleComponent  implements OnInit {
   }
 
   onToggleFavorite() {
+    const existsFavorite = this.favoriteSvc.currentFavorites.some(favorite => favorite._id === this.character._id)
 
-    if(localStorage.getItem('favorites')){
-      this.favoriteCards = JSON.parse(localStorage.getItem('favorites')!)
-    }
-    let existeItem:boolean = false
+    const message = existsFavorite ? 'Removed from favorites' : 'Added to favorites'
+    const cssClass = existsFavorite ? 'removed-favorite-toast' : 'added-favorite-toast'
+   this.favoriteSvc.saveRemoveCharacter(this.character)
+   this.presentToast( message, cssClass );
 
-    this.favoriteCards.forEach(item => {
-      if(item._id === this.character._id){
-        existeItem = true;
-      }
-    })
-    if (!existeItem){
-      this.favoriteCards.push(this.character)
-      localStorage.setItem('favorites',JSON.stringify(this.favoriteCards))
-      this.favoriteCards = JSON.parse(localStorage.getItem('favorites')!)
-    }
   }
 
-  removeFavorite(){
-    const NewFavorites = this.favoriteCards.filter(item=>item._id !== this.character._id);
-    localStorage.setItem('favorites', JSON.stringify(NewFavorites))
+
+
+  async presentToast(message: string, cssClass: string) {
+    console.log(cssClass)
+    const toast = await this.toastCtrl.create({
+      duration:1500,
+      position:'middle',
+      header: this.character.name,
+      cssClass,
+      animated:true,
+      message
+
+    });
+
+    await toast.present();
   }
 }

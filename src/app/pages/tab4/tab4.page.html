@@ -2,8 +2,7 @@
   <ion-toolbar>
     <ion-title style="font-size: 3.8vw;">
       <div style="display: flex;justify-content: center; align-items: center; gap: 10px;">
-        <ion-icon slot="start" color="primary" name="star"></ion-icon>
-        <span style="color: var(--ion-color-primary); font-size: 8vw;">Favoritos</span>
+          <span style="color: var(--ion-color-primary); font-size: 8vw;">Favorites</span>
       </div>
     </ion-title>
   </ion-toolbar>
@@ -13,15 +12,19 @@
   <ion-header collapse="condense" mode="ios" class="ion-no-border">
     <ion-toolbar>
       <div style="display: flex;justify-content: center; align-items: center; gap: 10px;">
-        <ion-icon slot="start" color="primary" name="star"></ion-icon>
-        <span style="color: var(--ion-color-primary); font-size: 8vw;">Favoritos</span>
+        <span style="color: var(--ion-color-primary); font-size: 8vw;">Favorites</span>
       </div>
-
       <ion-title color="primary" class="ion-text-center" size="large" style="font-size: 8vw;">
-
       </ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-chip *ngIf="favoriteCards.length > 0" color="primary" mode="ios" outline="true">
+    <ion-label>{{favoriteCards.length}}<span style="margin-left: 10px;">Favorites</span></ion-label>
+    <ion-icon  name="star-outline"></ion-icon>
+  </ion-chip>
 
   <app-articles [characters]="favoriteCards"></app-articles>
+  <div *ngIf="favoriteCards.length < 1" style="width: 100vw; height:100vh; display: flex; align-items: center; justify-content: center;">
+    <h1 style="color: var(--ion-color-primary); text-align: center;">No favorites yet</h1>
+  </div>
 </ion-content>

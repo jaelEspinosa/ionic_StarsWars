@@ -7,15 +7,12 @@ import { Data } from 'src/app/interfaces/starsWars';
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.scss'],
 })
-export class ArticlesComponent  implements OnInit, OnChanges {
+export class ArticlesComponent  implements OnInit {
 
-  @Input() characters:Data[]   = [];
+ @Input()characters:Data[] = [];
 
   constructor() { }
-  ngOnChanges(changes: SimpleChanges){
-    console.log('se detectaron cambios en characters', changes)
 
-  }
 
   ngOnInit() {}
 

@@ -93,3 +93,19 @@
   align-items: center;
   justify-content: space-around;
 }
+ion-toast.removed-favorite-toast{
+ --background:rgb(243, 159, 184);
+ --box-shadow: 3px 3px 10px 0 rgba(235, 228, 228, 0.3);
+   text-align: center!important;
+
+
+
+}
+
+ion-toast.added-favorite-toast {
+  --background:rgb(159, 243, 194);
+  --box-shadow: 3px 3px 10px 0 rgba(235, 228, 228, 0.3);
+    text-align: center!important;
+
+
+}

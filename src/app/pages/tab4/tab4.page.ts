@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Data } from 'src/app/interfaces/starsWars';
+import { FavoritesService } from 'src/app/services/favorites.service';
 
 
 @Component({
@@ -7,17 +8,13 @@ import { Data } from 'src/app/interfaces/starsWars';
   templateUrl: './tab4.page.html',
   styleUrls: ['./tab4.page.scss'],
 })
-export class Tab4Page implements OnInit {
+export class Tab4Page {
+  private favoritesSVc = inject( FavoritesService)
 
   constructor() { }
 
-  public favoriteCards : Data[] = []
-
-
-  ngOnInit() {
-    if(localStorage.getItem('favorites')){
-       this.favoriteCards = JSON.parse(localStorage.getItem('favorites')!)
-     }
-  }
+ get favoriteCards() : Data[] {
+  return this.favoritesSVc.currentFavorites
+ }
 
 }

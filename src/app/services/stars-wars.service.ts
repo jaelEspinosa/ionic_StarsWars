@@ -16,7 +16,7 @@ export class StarsWarsService implements OnInit{
 
   constructor() { }
   ngOnInit(): void {
-    this.searchPage = 1;
+   /*  this.searchPage = 1; */
     this.page=1
   }
   private http = inject ( HttpClient )
@@ -26,7 +26,7 @@ export class StarsWarsService implements OnInit{
   private dataByCategoryAndPage: DataByCategoryAndPage = {}
   private searchedResults: Data[] = []
 
-  private  searchPage: number = 1;
+  /* private  searchPage: number = 1; */
   public   lastPage: boolean = false;
   public   totalItems: number = 0;
 
